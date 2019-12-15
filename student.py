@@ -65,7 +65,7 @@ def to_int(value):
     try:
         return int(value)
     except ValueError:
-        return 9
+        return 0
 
 
 def to_float(value):
