@@ -1,7 +1,11 @@
 import unittest
 from student import Student
 from student_group import StudentGroup
-from str_convert import convert_student_to_str, convert_students_to_str
+from str_convert import (
+    convert_student_to_str,
+    convert_students_to_str,
+    convert_students_to_file_str
+)
 
 
 class TestStrConvert(unittest.TestCase):
@@ -26,14 +30,31 @@ class TestStrConvert(unittest.TestCase):
 
     def test_students(self):
         expected = (
-            'Номер зачетки  ФИО                       Год обучения  Средний балл  Возраст  Пол  Место рождения   Место проживания \n'
-            '10143634       Иванов И.И.               2             4.3           18       м    Москва           Москва           \n'
-            '10143635       Петров П.П.               2             4.1           19       м    Тула             Москва           \n'
-            '10143636       Константинопольский К.К.  2             3.4           17       м    Пермь            Москва           \n'
-            '10143637       Сидоров Н.В.              2             4.9           18       м    Санкт-Петербург  Москва           \n'
-            '10143638       Иванова А.Г.              2             4.7           17       ж    Санкт-Петербург  Москва           \n'
+            'Номер зачетки  ФИО                       Год обучения  '
+            'Средний балл  Возраст  Пол  Место рождения   Место проживания \n'
+            '10143634       Иванов И.И.               2             '
+            '4.3           18       м    Москва           Москва           \n'
+            '10143635       Петров П.П.               2             '
+            '4.1           19       м    Тула             Москва           \n'
+            '10143636       Константинопольский К.К.  2             '
+            '3.4           17       м    Пермь            Москва           \n'
+            '10143637       Сидоров Н.В.              2             '
+            '4.9           18       м    Санкт-Петербург  Москва           \n'
+            '10143638       Иванова А.Г.              2             '
+            '4.7           17       ж    Санкт-Петербург  Москва           \n'
         )
         self.assertEqual(convert_students_to_str(self.group.students),
+                         expected)
+
+    def test_students_to_file(self):
+        expected = (
+            '10143634;Иванов И.И.;2;4.3;18;м;Москва;Москва\n'
+            '10143635;Петров П.П.;2;4.1;19;м;Тула;Москва\n'
+            '10143636;Константинопольский К.К.;2;3.4;17;м;Пермь;Москва\n'
+            '10143637;Сидоров Н.В.;2;4.9;18;м;Санкт-Петербург;Москва\n'
+            '10143638;Иванова А.Г.;2;4.7;17;ж;Санкт-Петербург;Москва\n'
+        )
+        self.assertEqual(convert_students_to_file_str(self.group.students),
                          expected)
 
 

@@ -34,3 +34,19 @@ def convert_students_to_str(students):
             '{:<17}'.format(student.living_place) + '\n'
         )
     return result
+
+
+def convert_students_to_file_str(students):
+    result = ''
+    for student in students:
+        result += (
+            str(student.record_book) + ';' +
+            student.name + ';' +
+            str(student.year_of_study) + ';' +
+            str(student.avg_grade) + ';' +
+            str(student.age) + ';' +
+            student.gender + ';' +
+            student.birth_place + ';' +
+            student.living_place + '\n'
+        )
+    return result
