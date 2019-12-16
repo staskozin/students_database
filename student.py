@@ -1,4 +1,9 @@
+from num_convert import to_int, to_float
+
+
 class Student():
+    genders = frozenset('мж')
+
     def __init__(self, record_book, name, year_of_study,
                  avg_grade, age, gender, birth_place, living_place):
         self.set_record_book(record_book)
@@ -38,26 +43,11 @@ class Student():
         self.age = abs(to_int(age))
 
     def set_gender(self, gender):
-        genders = frozenset('мж')
         g = str(gender)
-        self.gender = g if g in genders else '-'
+        self.gender = g if g in Student.genders else '-'
 
     def set_birth_place(self, birth_place):
         self.birth_place = str(birth_place)
 
     def set_living_place(self, living_place):
         self.living_place = str(living_place)
-
-
-def to_int(value):
-    try:
-        return int(value)
-    except ValueError:
-        return 0
-
-
-def to_float(value):
-    try:
-        return float(value)
-    except ValueError:
-        return 0
