@@ -2,7 +2,7 @@ import unittest
 import os
 from student import Student
 from student_group import StudentGroup
-from str_convert import convert_students_to_str
+from str_convert import convert_student_to_str, convert_students_to_str
 
 
 class TestStudentGroup(unittest.TestCase):
@@ -29,6 +29,12 @@ class TestStudentGroup(unittest.TestCase):
         expected = self.group.students.copy()
         self.group.add_student('wrong')
         self.assertListEqual(self.group.students, expected)
+
+    def test_get_student(self):
+        self.assertEqual(
+            convert_student_to_str(self.group.get_student(10143634)),
+            convert_student_to_str(self.group.students[0])
+        )
 
     def test_update_student(self):
         self.group.update_student(10143634, self.student)

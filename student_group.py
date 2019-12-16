@@ -16,6 +16,11 @@ class StudentGroup():
             if not self.is_student_exists(student.record_book):
                 self.students.append(student)
 
+    def get_student(self, record_book):
+        for student in self.students:
+            if student.record_book == record_book:
+                return student
+
     def update_student(self, record_book, new_student):
         for i, student in enumerate(self.students):
             if student.record_book == record_book:
