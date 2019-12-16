@@ -123,30 +123,5 @@ class TestDefaultValues(unittest.TestCase):
         self.assertEqual(to_float('a'), 0)
 
 
-class TestPrint(unittest.TestCase):
-    def setUp(self):
-        self.student = Student(10143634, 'Иванов И.И.', 2, 3.7, 19, 'м',
-                               'Москва', 'Москва')
-
-    def test_single(self):
-        expected = (
-            'Номер зачетки: 10143634\n'
-            'ФИО: Иванов И.И.\n'
-            'Год обучения: 2\n'
-            'Средний балл: 3.7\n'
-            'Возраст: 19\n'
-            'Пол: м\n'
-            'Место рождения: Москва\n'
-            'Место проживания: Москва\n'
-        )
-        self.assertEqual(str(self.student), expected)
-
-    def test_table(self):
-        pass
-
-    def test_file(self):
-        pass
-
-
 if __name__ == '__main__':
     unittest.main()

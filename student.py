@@ -48,18 +48,6 @@ class Student():
     def set_living_place(self, living_place):
         self.living_place = str(living_place)
 
-    def __str__(self):
-        return (
-            'Номер зачетки: ' + str(self.record_book) + '\n' +
-            'ФИО: ' + self.name + '\n' +
-            'Год обучения: ' + str(self.year_of_study) + '\n' +
-            'Средний балл: ' + str(self.avg_grade) + '\n' +
-            'Возраст: ' + str(self.age) + '\n' +
-            'Пол: ' + self.gender + '\n' +
-            'Место рождения: ' + self.birth_place + '\n' +
-            'Место проживания: ' + self.living_place + '\n'
-        )
-
 
 def to_int(value):
     try:

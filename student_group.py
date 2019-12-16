@@ -3,10 +3,10 @@ from student import Student
 
 class StudentGroup():
     def __init__(self):
-        self._students = []
+        self.students = []
 
     def add_student(self, student):
-        self._students.append(student)
+        self.students.append(student)
 
     def find_student(self):
         pass
