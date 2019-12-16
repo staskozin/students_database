@@ -1,47 +1,66 @@
 import unittest
+import os
+from student import Student
+from student_group import StudentGroup
+from str_convert import convert_students_to_str
 
 
 class TestStudentGroup(unittest.TestCase):
-    # создать массив объектов класса (количество элементов массива
-    # пользователь вводит с клавиатуры)
-    def test_create(self):
-        pass
+    def setUp(self):
+        self.student = Student(10143639, 'Иванов И.И.', 2, 3.7, 19, 'м',
+                               'Москва', 'Москва')
+        self.group = StudentGroup()
+        self.group.load_from_file('students.txt')
 
-    # добавить метод класса – вывод характеристик объектов на экран дисплея
-    # в табличном виде
-    def test_print_as_table(self):
-        pass
+    def test_is_student_exists(self):
+        self.assertTrue(self.group.is_student_exists(10143634))
+        self.assertFalse(self.group.is_student_exists(10143639))
 
-    # сохранить сведения об объектах класса в типизированном файле,
-    def test_save_to_file(self):
-        pass
+    def test_add_student(self):
+        expected = self.group.students + [self.student]
+        self.group.add_student(self.student)
+        self.assertListEqual(self.group.students, expected)
 
-    # изменить характеристики одного или нескольких объектов класса
-    # (с соответствующими изменениями в файле)
-    def test_update_students(self):
-        pass
+        # Проверяем, что уже существующий студент не добавится
+        self.group.add_student(self.student)
+        self.assertListEqual(self.group.students, expected)
 
-    # удалить один или несколько объектов класса в соответствии с критерием
-    # (условие вводится пользователем с клавиатуры)
+    def test_add_student_wrong(self):
+        expected = self.group.students.copy()
+        self.group.add_student('wrong')
+        self.assertListEqual(self.group.students, expected)
+
+    def test_update_student(self):
+        self.group.update_student(10143634, self.student)
+        self.assertFalse(self.group.is_student_exists(10143634))
+
     def test_delete_students(self):
-        pass
+        expected = self.group.students.copy()
+        self.group.students += [self.student]
+        self.group.delete_student(10143639)
+        self.assertListEqual(self.group.students, expected)
 
-    # вывести на экран сведения обо всех объектах, хранящихся в файле
-    def test_print_from_file(self):
-        pass
-
-    # вывести данные (в табличном виде с соответствующим заголовком)
-    # об объектах класса, удовлетворяющих некоторому условию
-    # (например, список сотрудников в возрасте до 20 лет)
     def test_filter_students(self):
-        pass
+        self.assertEqual(
+            len(self.group.filter_students(lambda s: s.avg_grade > 4.2)), 3
+        )
 
+    def test_save_to_file(self):
+        f = open('students.txt', 'r')
+        expected = f.read()
+        f.close()
+        self.group.save_to_file('students_test.txt')
+        f = open('students_test.txt', 'r')
+        test = f.read()
+        f.close()
+        self.assertEqual(test, expected)
+        os.remove('students_test.txt')
 
-# описать новый класс объектов на основе существующего (добавить одну
-# или несколько новых характеристик)
-
-# создать массив объектов нового класса, показать пользователю
-# все объекты класса в табличном виде
+    def test_load_from_file(self):
+        group = StudentGroup()
+        group.load_from_file('students.txt')
+        self.assertEqual(convert_students_to_str(group.students),
+                         convert_students_to_str(self.group.students))
 
 
 if __name__ == '__main__':

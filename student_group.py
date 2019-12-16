@@ -1,24 +1,35 @@
 from student import Student
+from str_convert import convert_students_to_file_str
 
 
 class StudentGroup():
     def __init__(self):
         self.students = []
 
+    def is_student_exists(self, record_book):
+        for student in self.students:
+            if student.record_book == record_book:
+                return True
+
     def add_student(self, student):
-        self.students.append(student)
+        if isinstance(student, Student):
+            if not self.is_student_exists(student.record_book):
+                self.students.append(student)
 
-    def find_student(self):
-        pass
+    def update_student(self, record_book, new_student):
+        for i, student in enumerate(self.students):
+            if student.record_book == record_book:
+                self.students[i] = new_student
+                break
 
-    def update_student(self, student):
-        pass
-
-    def delete_student(self):
-        pass
+    def delete_student(self, record_book):
+        for i, student in enumerate(self.students):
+            if student.record_book == record_book:
+                del self.students[i]
+                break
 
     def filter_students(self, test):
-        return list(filter(test, self._students))
+        return list(filter(test, self.students))
 
     def load_from_file(self, path):
         f = open(path, 'r')
@@ -29,6 +40,5 @@ class StudentGroup():
 
     def save_to_file(self, path):
         f = open(path, 'w')
-        for student in self.students:
-            f.write(student.toFileRow())
+        f.write(convert_students_to_file_str(self.students))
         f.close()
