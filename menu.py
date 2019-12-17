@@ -48,22 +48,22 @@ class Menu:
             ),
         ]
 
-    def executeAction(self, actionId):
+    def execute_action(self, actionId):
         self.actions[actionId].action()
 
-    def handleInput(self):
+    def handle_input(self):
         os.system('cls')
-        self._printNumberOfStudents()
-        self._printActions()
+        self._print_number_of_students()
+        self._print_actions()
         chosen_action = to_int(input('Выберите действие: '))
         if chosen_action == 0:
             return
         elif chosen_action <= len(self.actions):
             os.system('cls')
-            self.executeAction(chosen_action - 1)
-        self.handleInput()
+            self.execute_action(chosen_action - 1)
+        self.handle_input()
 
-    def _printNumberOfStudents(self):
+    def _print_number_of_students(self):
         if len(self.student_group.students) > 0:
             print(
                 'Студентов в списке: ' +
@@ -72,7 +72,7 @@ class Menu:
         else:
             print('Список студентов пуст')
 
-    def _printActions(self):
+    def _print_actions(self):
         print('\nДоступные действия:')
         for i, action in enumerate(self.actions):
             print(str(i + 1) + ' - ' + action.name)
