@@ -46,10 +46,6 @@ class Menu:
                 'Сохранить список студентов в файл',
                 self._saveStudentsToFile
             ),
-            Action(
-                'Вывести кол-во девушек в списке',
-                self._printNumberOfGirls
-            ),
         ]
 
     def executeAction(self, actionId):
@@ -65,7 +61,7 @@ class Menu:
             print(str(i + 1) + ' - ' + action.name)
         print('0 - Выход из программы')
 
-        chosenAction = int(input('Выберите действие: '))
+        chosenAction = to_int(input('Выберите действие: '))
         if chosenAction == 0:
             return
         elif chosenAction <= len(self.actions):
@@ -83,7 +79,7 @@ class Menu:
             print('Список студентов пуст')
 
     def _addStudensToList(self):
-        number_of_students = int(input('Сколько студентов добавить: '))
+        number_of_students = to_int(input('Сколько студентов добавить: '))
         for i in range(0, number_of_students):
             print('Студент ' + str(i + 1))
             record_book = to_int(input('Номер зачетки: '))
@@ -99,17 +95,17 @@ class Menu:
             while avg_grade < 1 or avg_grade > 5:
                 print('Средний балл может быть от 1 до 5')
                 avg_grade = to_float(input('Средний балл: '))
-            age = input('Возраст: ')
+            age = to_int(input('Возраст: '))
             gender = input('Пол: ')
             while gender not in Student.genders:
                 print('Пол может быть только "м" или "ж"')
                 gender = input('Пол: ')
-            birthPlace = input('Место рождения: ')
-            livingPlace = input('Место проживания: ')
+            birth_place = input('Место рождения: ')
+            living_place = input('Место проживания: ')
 
             self.student_group.add_student(
                 Student(record_book, name, year_of_study, avg_grade,
-                        age, gender, birthPlace, livingPlace)
+                        age, gender, birth_place, living_place)
             )
 
     def _printAllStudentsAsTable(self):
@@ -137,36 +133,68 @@ class Menu:
                 self.student_group.get_student(record_book)
             ))
 
-            print('Новые данные: ')
-            name = input('ФИО: ')
-            year_of_study = to_int(input('Год обучения: '))
-            while year_of_study < 1 or year_of_study > 6:
-                print('Год обучения может быть от 1 до 6')
-                year_of_study = to_int(input('Год обучения: '))
-            avg_grade = to_float(input('Средний балл: '))
-            while avg_grade < 1 or avg_grade > 5:
-                print('Средний балл может быть от 1 до 5')
-                avg_grade = to_float(input('Средний балл: '))
-            age = input('Возраст: ')
-            gender = input('Пол: ')
-            while gender != 'м' and gender != 'ж':
-                print('Пол может быть только "м" или "ж"')
-                gender = input('Пол: ')
-            birthPlace = input('Место рождения: ')
-            livingPlace = input('Место проживания: ')
+            student = self.student_group.get_student(record_book)
 
-            self.student_group.update_student(
-                record_book,
-                Student(record_book, name, year_of_study, avg_grade,
-                        age, gender, birthPlace, livingPlace)
+            print(
+                'Что изменить?\n'
+                '1 - Номер зачетки\n'
+                '2 - ФИО\n'
+                '3 - Год обучения\n'
+                '4 - Средний балл\n'
+                '5 - Возраст\n'
+                '6 - Пол\n'
+                '7 - Место рождения\n'
+                '8 - Место проживания\n'
+                '0 - Вернуться в главное меню\n'
             )
+            chosenAction = to_int(input('Выберите действие: '))
+            while chosenAction < 0 or chosenAction > 8:
+                if chosenAction == 0:
+                    return
+                print('Неверное действие')
+                chosenAction = to_int(input('Выберите действие: '))
+
+            if chosenAction == 1:
+                record_book = to_int(input('Номер зачетки: '))
+                while self.student_group.is_student_exists(record_book):
+                    print('Такой номер зачетки уже существует')
+                    record_book = to_int(input('Номер зачетки: '))
+                student.record_book = record_book
+            elif chosenAction == 2:
+                student.name = input('ФИО: ')
+            elif chosenAction == 3:
+                year_of_study = to_int(input('Год обучения: '))
+                while year_of_study < 1 or year_of_study > 6:
+                    print('Год обучения может быть от 1 до 6')
+                    year_of_study = to_int(input('Год обучения: '))
+                student.year_of_study = year_of_study
+            elif chosenAction == 4:
+                avg_grade = to_float(input('Средний балл: '))
+                while avg_grade < 1 or avg_grade > 5:
+                    print('Средний балл может быть от 1 до 5')
+                    avg_grade = to_float(input('Средний балл: '))
+                student.avg_grade = avg_grade
+            elif chosenAction == 5:
+                student.age = to_int(input('Возраст: '))
+            elif chosenAction == 6:
+                gender = input('Пол: ')
+                while gender not in Student.genders:
+                    print('Пол может быть только "м" или "ж"')
+                    gender = input('Пол: ')
+                student.gender = gender
+            elif chosenAction == 7:
+                student.birth_place = input('Место рождения: ')
+            elif chosenAction == 8:
+                student.living_place = input('Место проживания: ')
+
+            self.student_group.update_student(record_book, student)
         else:
-            print('Студента с таким номером зачетки не существует')
+            print('Студент с таким номером зачетки не существует')
         input('Для продолжения нажмите Enter...')
 
     def _deleteStudentById(self):
         print('Удаление студента по номеру зачетки')
-        record_book = int(input('Номер зачетки: '))
+        record_book = to_int(input('Номер зачетки: '))
         if self.student_group.is_student_exists(record_book):
             self.student_group.delete_student(record_book)
         else:
@@ -188,11 +216,4 @@ class Menu:
         path = input('Введите путь к файлу: ')
         self.student_group.save_to_file(path)
         print('Студенты сохранены в файл ' + path)
-        input('Для продолжения нажмите Enter...')
-
-    def _printNumberOfGirls(self):
-        numberOfGirls = len(
-            self.student_group.filter_students(lambda x: x.gender == 'ж')
-        )
-        print('Кол-во девушек в списке: ' + str(numberOfGirls))
         input('Для продолжения нажмите Enter...')
