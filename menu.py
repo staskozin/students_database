@@ -6,6 +6,13 @@ from str_convert import (
     convert_students_to_str
 )
 from num_convert import to_int, to_float
+from input import (
+    input_int,
+    input_float,
+    input_record_book,
+    input_gender,
+    input_filepath
+)
 
 
 class Action:
@@ -82,24 +89,23 @@ class Menu:
         number_of_students = to_int(input('Сколько студентов добавить: '))
         for i in range(0, number_of_students):
             print('Студент ' + str(i + 1))
-            record_book = to_int(input('Номер зачетки: '))
-            while self.student_group.is_student_exists(record_book):
-                print('Такой номер зачетки уже существует')
-                record_book = to_int(input('Номер зачетки: '))
+            record_book = input_record_book('Номер зачетки: ', self)
             name = input('ФИО: ')
-            year_of_study = to_int(input('Год обучения: '))
-            while year_of_study < 1 or year_of_study > 6:
-                print('Год обучения может быть от 1 до 6')
-                year_of_study = to_int(input('Год обучения: '))
-            avg_grade = to_float(input('Средний балл: '))
-            while avg_grade < 1 or avg_grade > 5:
-                print('Средний балл может быть от 1 до 5')
-                avg_grade = to_float(input('Средний балл: '))
+            year_of_study = input_int(
+                'Год обучения: ',
+                range=(1, 6),
+                error='Год обучения может быть от 1 до 6'
+            )
+            avg_grade = input_float(
+                'Средний балл: ',
+                range=(1, 5),
+                error='Средний балл может быть от 1 до 5'
+            )
             age = to_int(input('Возраст: '))
-            gender = input('Пол: ')
-            while gender not in Student.genders:
-                print('Пол может быть только "м" или "ж"')
-                gender = input('Пол: ')
+            gender = input_gender(
+                'Пол: ',
+                'Пол может быть только "м" или "ж"'
+            )
             birth_place = input('Место рождения: ')
             living_place = input('Место проживания: ')
 
@@ -323,33 +329,31 @@ class Menu:
                 chosen_action = to_int(input('Выберите действие: '))
 
             if chosen_action == 1:
-                record_book = to_int(input('Номер зачетки: '))
-                while self.student_group.is_student_exists(record_book):
-                    print('Такой номер зачетки уже существует')
-                    record_book = to_int(input('Номер зачетки: '))
-                student.record_book = record_book
+                student.record_book = input_record_book(
+                    'Номер зачетки: ',
+                    self
+                )
             elif chosen_action == 2:
                 student.name = input('ФИО: ')
             elif chosen_action == 3:
-                year_of_study = to_int(input('Год обучения: '))
-                while year_of_study < 1 or year_of_study > 6:
-                    print('Год обучения может быть от 1 до 6')
-                    year_of_study = to_int(input('Год обучения: '))
-                student.year_of_study = year_of_study
+                student.year_of_study = input_int(
+                    'Год обучения: ',
+                    range=(1, 6),
+                    error='Год обучения может быть от 1 до 6'
+                )
             elif chosen_action == 4:
-                avg_grade = to_float(input('Средний балл: '))
-                while avg_grade < 1 or avg_grade > 5:
-                    print('Средний балл может быть от 1 до 5')
-                    avg_grade = to_float(input('Средний балл: '))
-                student.avg_grade = avg_grade
+                student.avg_grade = input_float(
+                    'Средний балл: ',
+                    range=(1, 5),
+                    error='Средний балл может быть от 1 до 5'
+                )
             elif chosen_action == 5:
-                student.age = to_int(input('Возраст: '))
+                student.age = input_int('Возраст: ')
             elif chosen_action == 6:
-                gender = input('Пол: ')
-                while gender not in Student.genders:
-                    print('Пол может быть только "м" или "ж"')
-                    gender = input('Пол: ')
-                student.gender = gender
+                student.gender = input_gender(
+                    'Пол: ',
+                    'Пол может быть только "м" или "ж"'
+                )
             elif chosen_action == 7:
                 student.birth_place = input('Место рождения: ')
             elif chosen_action == 8:
@@ -371,16 +375,15 @@ class Menu:
 
     def _load_students_from_file(self):
         print('Получение списка студентов из файла')
-        path = input('Введите путь к файлу: ')
-        if os.path.isfile(path):
-            self.student_group.load_from_file(path)
-        else:
-            print('Файла не существует')
-            input('Для продолжения нажмите Enter...')
+        path = input_filepath('Введите путь к файлу: ', 'Файла не существует')
+        self.student_group.load_from_file(path)
+        input('Для продолжения нажмите Enter...')
 
     def _save_students_to_file(self):
-        print('Сохранение студента в файл')
-        print('ВНИМАНИЕ! Предыдущее содержимое файла исчезнет')
+        print(
+            'Сохранение студента в файл\n'
+            'ВНИМАНИЕ! Предыдущее содержимое файла исчезнет\n'
+        )
         path = input('Введите путь к файлу: ')
         self.student_group.save_to_file(path)
         print('Студенты сохранены в файл ' + path)
