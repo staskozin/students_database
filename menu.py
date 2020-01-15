@@ -15,6 +15,13 @@ from input import (
 )
 
 
+def clear_screen():
+    if os.name == 'posix':
+        os.system('clear')
+    else:
+        os.system('cls')
+
+
 class Action:
     def __init__(self, name, action):
         self.name = name
@@ -59,14 +66,14 @@ class Menu:
         self.actions[actionId].action()
 
     def handle_input(self):
-        os.system('cls')
+        clear_screen()
         self._print_number_of_students()
         self._print_actions()
         chosen_action = to_int(input('Выберите действие: '))
         if chosen_action == 0:
             return
         elif chosen_action <= len(self.actions):
-            os.system('cls')
+            clear_screen()
             self.execute_action(chosen_action - 1)
         self.handle_input()
 
@@ -128,14 +135,14 @@ class Menu:
             chosen_action = to_int(input('Выберите действие: '))
 
         if chosen_action == 1:
-            os.system('cls')
+            clear_screen()
             print(convert_students_to_str(self.student_group.students))
         elif chosen_action == 2:
             self._print_filtered_students()
         input('Для продолжения нажмите Enter...')
 
     def _print_filtered_students(self):
-        os.system('cls')
+        clear_screen()
         print(
             'По какому параметру фильтровать?\n'
             '1 - Год обучения\n'
@@ -188,7 +195,7 @@ class Menu:
             elif chosen_action == 5:
                 students = self.student_group.filter_students(more_or_equal)
 
-            os.system('cls')
+            clear_screen()
             print(convert_students_to_str(students))
         elif chosen_action == 2:
             avg_grade = to_float(input('Средний балл: '))
@@ -225,7 +232,7 @@ class Menu:
             elif chosen_action == 5:
                 students = self.student_group.filter_students(more_or_equal)
 
-            os.system('cls')
+            clear_screen()
             print(convert_students_to_str(students))
         elif chosen_action == 3:
             age = to_int(input('Возраст: '))
@@ -259,7 +266,7 @@ class Menu:
             elif chosen_action == 5:
                 students = self.student_group.filter_students(more_or_equal)
 
-            os.system('cls')
+            clear_screen()
             print(convert_students_to_str(students))
         elif chosen_action == 4:
             gender = input('Пол: ')
@@ -269,28 +276,28 @@ class Menu:
             students = self.student_group.filter_students(
                 lambda s: s.gender == gender
             )
-            os.system('cls')
+            clear_screen()
             print(convert_students_to_str(students))
         elif chosen_action == 5:
             birth_place = input('Место рождения: ')
             students = self.student_group.filter_students(
                 lambda s: s.birth_place == birth_place
             )
-            os.system('cls')
+            clear_screen()
             print(convert_students_to_str(students))
         elif chosen_action == 6:
             living_place = input('Место проживания: ')
             students = self.student_group.filter_students(
                 lambda s: s.living_place == living_place
             )
-            os.system('cls')
+            clear_screen()
             print(convert_students_to_str(students))
 
     def _print_student(self):
         print('Вывод студента по номеру зачетки')
         record_book = int(input('Номер зачетки: '))
         if self.student_group.is_student_exists(record_book):
-            os.system('cls')
+            clear_screen()
             print(convert_student_to_str(
                 self.student_group.get_student(record_book)
             ))
@@ -302,7 +309,7 @@ class Menu:
         print('Изменение студента по номеру зачетки')
         record_book = int(input('Номер зачетки: '))
         if self.student_group.is_student_exists(record_book):
-            os.system('cls')
+            clear_screen()
             print(convert_student_to_str(
                 self.student_group.get_student(record_book)
             ))
