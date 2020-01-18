@@ -1,7 +1,5 @@
 import unittest
-import student_test
-import student_group_test
-import str_convert_test
+from tests import student_group_test, student_test, str_convert_test
 
 loader = unittest.TestLoader()
 suite = unittest.TestSuite()

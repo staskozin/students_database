@@ -42,6 +42,8 @@ class TestStrConvert(unittest.TestCase):
             '4.9           18       м    Санкт-Петербург  Москва           \n'
             '10143638       Иванова А.Г.              2             '
             '4.7           17       ж    Санкт-Петербург  Москва           \n'
+            '1              Петухов П.П.              2             '
+            '3.2           23       м    Тверь            Москва           \n'
         )
         self.assertEqual(convert_students_to_str(self.group.students),
                          expected)
@@ -53,6 +55,7 @@ class TestStrConvert(unittest.TestCase):
             '10143636;Константинопольский К.К.;2;3.4;17;м;Пермь;Москва\n'
             '10143637;Сидоров Н.В.;2;4.9;18;м;Санкт-Петербург;Москва\n'
             '10143638;Иванова А.Г.;2;4.7;17;ж;Санкт-Петербург;Москва\n'
+            '1;Петухов П.П.;2;3.2;23;м;Тверь;Москва\n'
         )
         self.assertEqual(convert_students_to_file_str(self.group.students),
                          expected)
